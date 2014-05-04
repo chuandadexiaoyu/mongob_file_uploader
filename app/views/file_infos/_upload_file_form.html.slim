@@ -1,0 +1,12 @@
+== form_for @file_info, remote: true, :html => {:multipart => true} do |f|
+  p
+    label
+    	|Loaded files form
+    p
+    	== f.file_field :any_file
+    p
+    - if @file_info.any_file?
+  		p>> Размер
+  			== @file_info.size 
+  	p 
+  		== f.submit  

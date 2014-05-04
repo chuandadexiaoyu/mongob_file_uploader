@@ -1,19 +1,7 @@
-h1 Listing file_infos
+== render 'registration.html'
+- unless current_user.nil?
+  h2 List files
+  .file-infos-table
+    == render 'file_infos_table', :file_infos => @file_infos
 
-table
-  thead
-    tr
-      th
-      th
-      th
-
-  tbody
-    - @file_infos.each do |file_info|
-      tr
-        td = link_to 'Show', file_info
-        td = link_to 'Edit', edit_file_info_path(file_info)
-        td = link_to 'Destroy', file_info, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
-= link_to 'New File info', new_file_info_path
+  == render 'upload_file_form'

@@ -1,8 +1,15 @@
 class FileInfosController < ApplicationController
+
+  before_filter :authenticate_user!, except: [:index]
+  before_filter :set_user, only: [:index]
+
   # GET /file_infos
   # GET /file_infos.json
   def index
-    @file_infos = FileInfo.all
+    @file_info = FileInfo.new
+    #@file_infos = FileInfo.all
+    @file_infos = current_user.file_info unless current_user.nil?
+    
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,49 +28,19 @@ class FileInfosController < ApplicationController
     end
   end
 
-  # GET /file_infos/new
-  # GET /file_infos/new.json
-  def new
-    @file_info = FileInfo.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @file_info }
-    end
-  end
-
-  # GET /file_infos/1/edit
-  def edit
-    @file_info = FileInfo.find(params[:id])
-  end
-
   # POST /file_infos
   # POST /file_infos.json
   def create
     @file_info = FileInfo.new(params[:file_info])
-
+    @file_info.user = current_user
     respond_to do |format|
       if @file_info.save
+        @files = current_user.file_info
+        format.js{}
         format.html { redirect_to @file_info, notice: 'File info was successfully created.' }
         format.json { render json: @file_info, status: :created, location: @file_info }
       else
         format.html { render action: "new" }
-        format.json { render json: @file_info.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /file_infos/1
-  # PUT /file_infos/1.json
-  def update
-    @file_info = FileInfo.find(params[:id])
-
-    respond_to do |format|
-      if @file_info.update_attributes(params[:file_info])
-        format.html { redirect_to @file_info, notice: 'File info was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
         format.json { render json: @file_info.errors, status: :unprocessable_entity }
       end
     end
@@ -80,4 +57,15 @@ class FileInfosController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def set_user
+    if current_user.nil?
+      @user ||= User.new
+    else
+      @user = current_user
+    end
+  end
+
 end

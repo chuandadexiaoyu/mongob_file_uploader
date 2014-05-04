@@ -1,0 +1,12 @@
+table
+  thead
+    tr
+      th
+      th
+      th
+
+  tbody
+    - file_infos.each do |file_info|
+      tr
+        td = link_to "#{file_info.any_file.path}", file_info
+        td = link_to 'Destroy', file_info, data: {:confirm => 'Are you sure?'}, :method => :delete

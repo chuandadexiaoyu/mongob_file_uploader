@@ -1,14 +1,10 @@
 Loaderfiles::Application.routes.draw do
 
-  resources :file_infos
-
-
-  resources :infos
-
+  resources :file_infos, only: [:index, :create, :destroy, :show]
 
   devise_for :users
 
-  root to: "fileinfo#index"
+  root to: "file_infos#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
