@@ -8,8 +8,8 @@ class FileInfosController < ApplicationController
   def index
     @file_info = FileInfo.new
     #@file_infos = FileInfo.all
-    @file_infos = current_user.file_info unless current_user.nil?
-    
+    @file_infos = current_user.file_info.reverse unless current_user.nil?
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -67,5 +67,9 @@ class FileInfosController < ApplicationController
       @user = current_user
     end
   end
+
+  # def file_infos_params
+  #   params.require(:id).permit(:file_info)
+  # end
 
 end
