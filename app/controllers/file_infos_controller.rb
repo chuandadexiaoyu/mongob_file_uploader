@@ -14,6 +14,7 @@ class FileInfosController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @file_infos }
+      format.json { render xml: @file_infos }
     end
   end
 
